@@ -109,7 +109,7 @@ public class Robot extends TimedRobot
     // schedule the autonomous command selected in the autoChooser
     if (m_autonomousCommand != null)
     {
-      CommandScheduler.getInstance().schedule(m_autonomousCommand);
+      m_autonomousCommand.schedule();
     }
   }
 

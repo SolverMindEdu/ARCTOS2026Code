@@ -20,12 +20,10 @@ public final class Constants
 {
 
   public static final double ROBOT_MASS = 46.0; // kg
-  public static final Matter CHASSIS = new Matter(
-      new Translation3d(0, 0, Units.inchesToMeters(6)),
-      ROBOT_MASS
-  );
-  public static final double LOOP_TIME = 0.13; // Spark MAX response lag compensation
-  public static final double MAX_SPEED = Units.feetToMeters(16.5);
+  public static final Matter CHASSIS =
+      new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
+  public static final double LOOP_TIME = 0.02; // 20ms main loop
+  public static final double MAX_SPEED = Units.feetToMeters(16.5); // ~5.03 m/s
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
 //  public static final class AutonConstants
