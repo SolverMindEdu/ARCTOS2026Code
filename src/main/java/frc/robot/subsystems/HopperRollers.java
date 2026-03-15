@@ -22,7 +22,6 @@ public class HopperRollers extends SubsystemBase {
 
     hopperMotor.configure(hopperConfig, SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
-
   }
 
   public void run(double speed) {
