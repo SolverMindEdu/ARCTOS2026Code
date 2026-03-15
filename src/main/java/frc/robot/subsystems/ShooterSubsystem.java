@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+
+import org.littletonrobotics.junction.AutoLog;
+
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
@@ -9,6 +12,12 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
+  @AutoLog
+  public static class ShooterInputs {
+    public double current;
+    public double temperature;
+    public double voltage;
+  }
 
   private final SparkMax leftShooter = new SparkMax(13, MotorType.kBrushless);
   private final SparkMax rightShooter = new SparkMax(11, MotorType.kBrushless);
@@ -30,14 +39,12 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooter.configure(
         leftConfig,
         SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters
-    );
+        SparkBase.PersistMode.kPersistParameters);
 
     rightShooter.configure(
         rightConfig,
         SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters
-    );
+        SparkBase.PersistMode.kPersistParameters);
   }
 
   public void run(double speed) {

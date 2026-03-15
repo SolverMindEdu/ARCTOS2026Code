@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -11,6 +13,12 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SlapdownSubsystem extends SubsystemBase {
+  @AutoLog
+  public static class SlapdownInputs {
+    public double current;
+    public double temperature;
+    public double voltage;
+  }
 
   private final SparkMax motor;
   private final RelativeEncoder encoder;
@@ -34,8 +42,7 @@ public class SlapdownSubsystem extends SubsystemBase {
     motor.configure(
         config,
         SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters
-    );
+        SparkBase.PersistMode.kPersistParameters);
   }
 
   public void resetEncoder() {

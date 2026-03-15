@@ -1,15 +1,24 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class KickerSubsystem extends SubsystemBase {
+  @AutoLog
+  public static class KickerInputs {
+    public double current;
+    public double temperature;
+    public double voltage;
+  }
 
   private final SparkMax kickermotor = new SparkMax(10, MotorType.kBrushless); // change CAN ID
 
-  public KickerSubsystem() {}
+  public KickerSubsystem() {
+  }
 
   public void run(double speed) {
     kickermotor.set(speed);
