@@ -30,14 +30,12 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooter.configure(
         leftConfig,
         SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters
-    );
+        SparkBase.PersistMode.kPersistParameters);
 
     rightShooter.configure(
         rightConfig,
         SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters
-    );
+        SparkBase.PersistMode.kPersistParameters);
   }
 
   public void run(double speed) {
