@@ -17,8 +17,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 
-public class RobotContainer
-{
+public class RobotContainer {
   final CommandXboxController driverXbox = new CommandXboxController(0);
 
   private final SwerveSubsystem drivebase = new SwerveSubsystem(
@@ -34,16 +33,15 @@ public class RobotContainer
   private boolean intakeDeployed = false;
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(
-          drivebase.getSwerveDrive(),
-          () -> -driverXbox.getLeftY(),
-          () -> -driverXbox.getLeftX())
+      drivebase.getSwerveDrive(),
+      () -> -driverXbox.getLeftY(),
+      () -> -driverXbox.getLeftX())
       .withControllerRotationAxis(() -> -driverXbox.getRightX())
       .deadband(OperatorConstants.DEADBAND)
       .scaleTranslation(0.4)
       .allianceRelativeControl(true);
 
-  public RobotContainer()
-  {
+  public RobotContainer() {
     intakeslapdown.resetEncoder();
 
     configureBindings();
@@ -55,65 +53,57 @@ public class RobotContainer
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
-  private void configureBindings()
-  {
+  private void configureBindings() {
     Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
-  driverXbox.leftTrigger().onTrue(
-      Commands.runOnce(() -> {
-        intakeDeployed = !intakeDeployed;
-
-        if (intakeDeployed) {
-          intakeslapdown.goDown();
-        } else {
-          intakeslapdown.goHome();
-        }
-      }, intakeslapdown)
-  );
-
-// While holding left trigger: only run rollers if intake is deployed
-driverXbox.leftTrigger().whileTrue(
-    Commands.startEnd(
-        () -> {
-          if (intakeDeployed) {
-            intake.run(-0.8);
-          }
-        },
-        intake::stop,
-        intake
-    )
-);
-
-driverXbox.rightTrigger().whileTrue(
-    Commands.sequence(
+    driverXbox.leftTrigger().onTrue(
         Commands.runOnce(() -> {
-            kicker.run(0.7);
-            shooter.run(0.7);
-        }, kicker, shooter),
+          intakeDeployed = !intakeDeployed;
 
-        Commands.repeatingSequence(
-            Commands.runOnce(() -> hopper.run(-0.7), hopper),
-            Commands.waitSeconds(10.0),
+          if (intakeDeployed) {
+            intakeslapdown.goDown();
+          } else {
+            intakeslapdown.goHome();
+          }
+        }, intakeslapdown));
 
-            Commands.runOnce(() -> hopper.run(-0.7), hopper),
-            Commands.waitSeconds(0.2)
-        )
-    ).finallyDo(() -> {
-        hopper.stop();
-        kicker.stop();
-        shooter.stop();
-    })
-);
-        }
+    // While holding left trigger: only run rollers if intake is deployed
+    driverXbox.leftTrigger().whileTrue(
+        Commands.startEnd(
+            () -> {
+              if (intakeDeployed) {
+                intake.run(-0.8);
+              }
+            },
+            intake::stop,
+            intake));
 
-  public Command getAutonomousCommand()
-  {
+    driverXbox.rightTrigger().whileTrue(
+        Commands.sequence(
+            Commands.runOnce(() -> {
+              kicker.run(0.7);
+              shooter.run(0.7);
+            }, kicker, shooter),
+
+            Commands.repeatingSequence(
+                Commands.runOnce(() -> hopper.run(-0.7), hopper),
+                Commands.waitSeconds(10.0),
+
+                Commands.runOnce(() -> hopper.run(-0.7), hopper),
+                Commands.waitSeconds(0.2)))
+            .finallyDo(() -> {
+              hopper.stop();
+              kicker.stop();
+              shooter.stop();
+            }));
+  }
+
+  public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 }
